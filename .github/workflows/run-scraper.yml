@@ -2,7 +2,7 @@ name: Scrape Movies
 on:
   workflow_dispatch:  # Allows manual triggering
   schedule:
-    - cron: "0 16 * * *"  # Runs every day at 4 PM UTC (which is 8 AM PST)
+  - cron: '0 16 * * *'  # Runs every day at 4 PM UTC (which is 8 AM PST)
 
 jobs:
   run-scraper:
