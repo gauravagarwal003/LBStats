@@ -2,7 +2,7 @@ name: Run Daily Movie Scraper
 
 on:
   schedule:
-    - cron: "0 8 * * *"  # This runs daily at 8 AM UTC
+    - cron: "* * * * *"  # This runs every minute
 
 jobs:
   build:
