@@ -3,6 +3,7 @@ name: Test Hello World
 on:
   schedule:
     - cron: "* * * * *"  # Runs every minute
+  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
   build:
