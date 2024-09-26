@@ -1,9 +1,8 @@
-name: Run Movie Scraper and Update stats.csv
-
+name: Scrape Movies
 on:
   workflow_dispatch:  # Allows manual triggering
   schedule:
-    - cron: "*/10 * * * *"  # Runs every 10 minutes
+    - cron: "0 16 * * *"  # Runs every day at 4 PM UTC (which is 8 AM PST)
 
 jobs:
   run-scraper:
@@ -34,6 +33,6 @@ jobs:
           git add stats.csv
           
           # Check if there are changes to commit
-          git commit -m "Update stats.csv with new movie data" || echo "No changes to commit"
+          git commit -m "Scraped movies" || echo "No changes to commit"
           
           git push
