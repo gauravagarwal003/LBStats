@@ -1,8 +1,8 @@
-name: Test Hello World
+name: Run Movie Scraper Every 10 Minutes
 
 on:
   schedule:
-    - cron: "* * * * *"  # Runs every minute
+    - cron: "*/10 * * * *"  # Runs every 10 minutes
   workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
@@ -10,5 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Run Hello World
-      run: echo "Hello, World!"
+    - name: Checkout repository content
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run the scraper
+      run: python populate_stats.py
