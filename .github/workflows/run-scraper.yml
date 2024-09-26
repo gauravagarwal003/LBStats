@@ -1,5 +1,8 @@
 name: Scrape Movies
 on:
+  push:
+      branches:
+      - main
   workflow_dispatch:  # Allows manual triggering
   schedule:
     - cron: "0 16 * * *"  # Runs every day at 4 PM UTC (which is 8 AM PST)
@@ -27,8 +30,8 @@ jobs:
 
       - name: Commit and push changes to stats.csv
         run: |
-          git config --global user.name "Your Username"
-          git config --global user.email "your-email@example.com"
+          git config --global user.name "Scraper Bot"
+          git config --global user.email "gagarwal003@gmail.com"
           
           git add stats.csv
           
