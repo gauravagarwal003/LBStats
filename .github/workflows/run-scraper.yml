@@ -1,27 +1,39 @@
-name: Run Movie Scraper Every 10 Minutes
+name: Run Movie Scraper and Update stats.csv
 
 on:
+  workflow_dispatch:  # Allows manual triggering
   schedule:
     - cron: "*/10 * * * *"  # Runs every 10 minutes
-  workflow_dispatch:  # Allows manual triggering of the workflow
 
 jobs:
-  build:
+  run-scraper:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository content
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Run the scraper
-      run: python populate_stats.py
+      - name: Run the scraper
+        run: python populate_stats.py
+
+      - name: Commit and push changes to stats.csv
+        run: |
+          git config --global user.name "Your Username"
+          git config --global user.email "your-email@example.com"
+          
+          git add stats.csv
+          
+          # Check if there are changes to commit
+          git commit -m "Update stats.csv with new movie data" || echo "No changes to commit"
+          
+          git push
