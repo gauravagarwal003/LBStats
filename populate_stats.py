@@ -23,7 +23,7 @@ def store_data(id, label, number, filename='stats.csv'):
 time_total = time.time()
 base_url = "https://letterboxd.com/sprudelheinz/list/all-the-movies-sorted-by-movie-posters-1/by/popular/"
 page_number = 1
-while page_number <= 10:
+while page_number <= 5:
     url = f"{base_url}/page/{page_number}/"
     response = requestsSession.get(url)
     soup = BeautifulSoup(response.text, 'lxml')
@@ -47,4 +47,4 @@ while page_number <= 10:
         store_data(movieID, "numFans", getNumFans(True, movieID, soupLikes))
         print(f"{movieID} took {time.time() - time_each_movie} seconds")
     page_number += 1
-print(f"Total time: {time.time() - time_total}")
+print(f"Total time: {time.time() - time_total}. Finished at {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
