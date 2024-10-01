@@ -2,6 +2,7 @@ from functions import *
 import csv
 from datetime import datetime
 import time
+import pytz
 requestsSession = requests.Session()
 
 def store_data(id, label, number, filename='stats.csv'):
@@ -20,7 +21,9 @@ def store_data(id, label, number, filename='stats.csv'):
         # Write the new data (ID, Label, Date, Number)
         writer.writerow([id, label, current_date, number])
 
-print(f"Started at {datetime.now().strftime('%Y-%m-%d %I:%M:%S %p')}")
+pst = pytz.timezone('US/Pacific')
+start_time = datetime.now(pst).strftime('%Y-%m-%d %I:%M:%S %p')
+print(f"Started at {start_time}")
 time_total = time.time()
 base_url = "https://letterboxd.com/sprudelheinz/list/all-the-movies-sorted-by-movie-posters-1/by/popular/"
 page_number = 1
@@ -47,4 +50,5 @@ while page_number <= 5:
         store_data(movieID, "numLikes", getNumLikes(True,movieID, soupLikes))
         store_data(movieID, "numFans", getNumFans(True, movieID, soupLikes))
     page_number += 1
-print(f"Total time: {time.time() - time_total}. Finished at {datetime.now().strftime('%Y-%m-%d %I:%M:%S %p')}")
+end_time = datetime.now(pst).strftime('%Y-%m-%d %I:%M:%S %p')
+print(f"Ended at {end_time}")
