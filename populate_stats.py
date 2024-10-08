@@ -3,12 +3,24 @@ import csv
 from datetime import datetime
 import time
 import pytz
+
 requestsSession = requests.Session()
+current_date = datetime.now().strftime('%Y-%m-%d')
+
+def log_run_date(filename='dates.csv'):
+    # Open the CSV file in append mode ('a')
+    with open(filename, 'a', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        
+        # If this is the first time you're writing to the file, include the header
+        csvfile.seek(0, 2)  # Move to the end of the file
+        if csvfile.tell() == 0:  # If file is empty, write the header
+            writer.writerow(['date'])
+        
+        # Write the current date
+        writer.writerow([current_date])
 
 def store_data(id, label, number, filename='stats.csv'):
-    # Get the current date in YYYY-MM-DD format
-    current_date = datetime.now().strftime('%Y-%m-%d')
-    
     # Open the CSV file in append mode ('a')
     with open(filename, 'a', newline='') as csvfile:
         writer = csv.writer(csvfile)
@@ -21,6 +33,7 @@ def store_data(id, label, number, filename='stats.csv'):
         # Write the new data (ID, Label, Date, Number)
         writer.writerow([id, label, current_date, number])
 
+log_run_date()
 pst = pytz.timezone('US/Pacific')
 start_time = datetime.now(pst).strftime('%Y-%m-%d %I:%M:%S %p')
 print(f"Started at {start_time}")
