@@ -26,12 +26,13 @@ jobs:
       - name: Run the scraper
         run: python populate_stats.py
 
-      - name: Commit and push changes to stats.csv
+      - name: Commit and push changes to stats.csv & dates.csv
         run: |
           git config --global user.name "Scraper Bot"
           git config --global user.email "gagarwal003@gmail.com"
           
           git add stats.csv
+          git add dates.csv
           
           # Check if there are changes to commit
           git commit -m "Scraped movies with bot" || echo "No changes to commit"
