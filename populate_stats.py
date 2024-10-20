@@ -42,7 +42,7 @@ base_url = "https://letterboxd.com/sprudelheinz/list/all-the-movies-sorted-by-mo
 page_number = 1
 while page_number <= 5:
     url = f"{base_url}/page/{page_number}/"
-    response = requestsSession.get(url)
+    response = requestsSession.get(url, timeout=10)
     soup = BeautifulSoup(response.text, 'lxml')
     movie_divs = soup.find_all('div', class_='really-lazy-load')
     if not movie_divs:
@@ -50,10 +50,10 @@ while page_number <= 5:
     for div in movie_divs:
         time_each_movie = time.time()
         movieID = div['data-film-slug']
-        responseLikes = requestsSession.get(f"https://letterboxd.com/film/{movieID}/likes")
+        responseLikes = requestsSession.get(f"https://letterboxd.com/film/{movieID}/likes", timeout=10)
         soupLikes = BeautifulSoup(responseLikes.text, 'lxml')
         
-        responseRating = requestsSession.get(f"https://letterboxd.com/csi/film/{movieID}/rating-histogram/")
+        responseRating = requestsSession.get(f"https://letterboxd.com/csi/film/{movieID}/rating-histogram/", timeout=10)
         soupRating = BeautifulSoup(responseRating.text, 'lxml')
 
         store_data(movieID, "numViews", getnumViews(True, movieID, soupLikes))
